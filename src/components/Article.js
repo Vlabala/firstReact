@@ -1,17 +1,34 @@
 import React, {Component} from 'react'
 
 class Article extends Component {
+    constructor(props) {
+        super(props)
 
-    state = {
-        isOpen: true
-    };
+        this.state = {
+            isOpen: props.defaultOpen
+        }
+    }
 
+    componentWillMount(){
+        console.log('----', 'mounting')
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log('---','will receive props');
+        if (nextProps.defaultOpen !== this.props.defaultOpen) this.setState({
+            isOpen: nextProps.defaultOpen
+        })
+    }
+
+    componentWillUpdate(){
+        console.log('---',"will update")
+    }
     render() {
         const {article} = this.props;
 
         const body = this.state.isOpen && <section className="card-text">{article.text}</section>;
-        const articleDate = <h6 className="card-subtitle text-muted">creation date: {(new Date(article.date)).toDateString()}</h6>;
-        console.log('----', this.props);
+        const articleDate = <h6 className="card-subtitle text-muted">creation
+            date: {(new Date(article.date)).toDateString()}</h6>;
         return (
             <div className="card mx-auto" style={{width: '50%'}}>
                 <div className="card-header">
